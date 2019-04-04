@@ -1,0 +1,83 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{cite}
+\usepackage{indentfirst}
+\usepackage{graphicx}
+\usepackage{dblfloatfix}
+\usepackage{authblk}
+
+\newcommand*{\Titlefont}{\Large\normalfont}
+\renewcommand*{\Authfont}{\normalsize\normalfont}
+\renewcommand*{\Affilfont}{\footnotesize\normalfont}
+
+%%%%%%%%%%%%%%%% TABLE
+\setlength{\arrayrulewidth}{0.1mm}
+\setlength{\tabcolsep}{18pt}
+\renewcommand{\arraystretch}{1.5}
+\newcommand{\ce}{\centering}
+
+%%%%%%%%%%%%%%%%% HEADING
+\title{\Titlefont PHYS CS 15C Research Proposal\\Remotely Operated Vehicle with Visualized Terrain}
+\author[1]{\Authfont David Wang}
+\author[1]{\Authfont Frank Fu}
+\author[1]{\Authfont Yiluo Li}
+\affil[1]{\Affilfont College of Creative Studies, University of California, Santa Barbara}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+
+
+\section{Significance}
+
+
+
+\section{Objective}
+
+\begin{enumerate}
+	\item Study the differences and similarities of three icy satellites, and propose different modifications to be made for the current Europa model;
+	\item Extend the Europa model\cite{Trumbo2017} to fit to Galileo PPR data and ALMA observations for Ganymede and Callisto; 
+	\item Analyze the temperate maps with the developed models and potentially identify other similarly anomalous regions.
+\end{enumerate}
+
+
+\section{Methodology}
+
+
+
+\section{Proposed Project Timeline}
+
+$$
+\begin{tabular}{ |p{1cm}|p{10cm}|  }
+	\hline
+		\multicolumn{2}{|c|}{Research Timeline} \\
+	\hline
+		 Week & Description \\
+	\hline
+		\ce 1		& 	Order necessary parts\\
+		\ce 2		&	Assemble the conductive layer control pad, supply constant AC current through one pair of electrodes, and measure the voltage difference at different vertices\\
+		\ce 3-4		&	Supply current through all adjacent pairs of electrodes, and readout the voltage differences at all other vertices\\
+		\ce 5-6		&	Visualize the 2-D voltage current density	when touching the control pad with tomography imaging\\
+		\ce 7		&	Output coordinate of touch on the control pad; assemble the self-balancing robot\\
+		\ce 8-9		&	Assemble the self-balancing robot and the bluetooth module\\
+		\ce 10		&	Move the robot with control robot\\
+	\hline
+\end{tabular}
+$$
+
+\section{Conclusion}
+
+
+\section{Acknowledgment}
+I would like to acknowledge Qicheng Zhang and my advisor at UCSB Dr. Tengiz Biblilashvli for their valuable feedback toward this research proposal.
+
+\medskip
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CITATION
+\bibliographystyle{phaip}
+\bibliography{ref}
+
+\end{document}
