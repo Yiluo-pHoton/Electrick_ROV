@@ -39,7 +39,7 @@ Often times there exist terrain on which people cannot tread on. Imagine the com
 
 The conventional control of the robots still have room for improvements. Traditionally, people need to be trained to operate certain robots properly by using its control pad before actually doing the task. Meanwhile, the commander of the task usually is not the person who directly manipulate the robots and his/her command can be delayed. Moreover, there exists a possibility that the personal in charge of the manipulation misunderstand the commands and leads to fatal error. 
 
-Controlling a robot with a visualized terrain will not merely keep all the personals in the commanding room aware of the most recent update of the situation, but it will also save the time when delivering commands and avoid misunderstanding of the commands. To control the robot, the commander just need to use his/her finger or baton to draw a path on the visualized terrain. Then, the touch sensing module from the terrain will send the information of the path for the robot. After receiving the information, the robot will automatically follow the designated path and reach it destination.
+Controlling a robot with a visualized terrain will not merely keep all the personals in the commanding room aware of the most recent update of the situation, but it will also save the time when delivering commands and avoid misunderstanding of the commands. To control the robot, the commander just need to use his/her finger or baton to draw a path on the visualized terrain. Then, the touch sensing module from the terrain will send the exact path for the robot to reach its destination. 
 
 Therefore, this visualized terrain will provide us with more efficiency and accuracy for the rescue mission. 
 
