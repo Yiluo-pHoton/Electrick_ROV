@@ -5,6 +5,7 @@
 \usepackage{graphicx}
 \usepackage{dblfloatfix}
 \usepackage{authblk}
+\usepackage{float}
 
 \newcommand*{\Titlefont}{\Large\normalfont}
 \renewcommand*{\Authfont}{\normalsize\normalfont}
@@ -37,7 +38,7 @@ Often times there exist terrain on which people cannot tread on. Imagine the com
 
 \section{Significance}
 
-Traditionally, to manipulate a robot, a person needs to be trained specifically to master its control before actually being proficient enough to conduct the task. However, even so the commander of the task is usually not the direct person to manipulate the robots and his/her command can be delayed when delivering to a certain personal. In this process of commandin, it is possible that a mis-communication happens and leads to fatal failures.
+Traditionally, to manipulate a robot, a person needs to be trained specifically to master its control before actually being proficient enough to conduct the task. However, even so the commander of the task is usually not the direct person to manipulate the robots and his/her command can be delayed when delivering to a certain personal. In this process of commanding, it is possible that a mis-communication happens and leads to fatal failures.
 
 Controlling a robot with a visualized terrain does not merely keep all the personals in the commanding room aware of the most recent update of the situation, but it also saves time for delivering commands and avoid misunderstanding. To control the robot, the decision maker just need to use his/her finger or any conductive baton to draw a path on the visualized terrain. Then, the signals from the terrain will be sent to inform the robot of the path. 
 
@@ -54,19 +55,19 @@ Therefore, this visualized terrain will provide us with more efficiency and accu
 
 
 \section{Methodology}
-\section{Methodology}
-We will first assemble the conductive layer control pad and mound on the electrodes. Two thin copper chips will be soldered to each side of the control pad to ensure the connections. Alligator clips jumper wires will be used so as to easily transfer between different control pads. Each wire that is connected to the control pad will be divided into two, and will be connected to separate voltage sources and volt meters on the Arduino Mega 2560. The chip does not have large enough internal resistance, but as we are merely concerned with where the voltage drop occur, this error, although large, is still acceptable.
+\indent We will first assemble the conductive layer control pad and mound on the electrodes. The conductive layer can be made from coding a square sheet  with carbon conductive paint. Two thin copper chips will be soldered to each side of the control pad to achieve minimum requirement for visualizing the current density map. To supply current, we will use alligator clips jumper wires for easy transfers between different control pads. Each wire that is connected to the control pad will be divided into two, and will be connected to separate voltage source and analog input pins on the Arduino Mega 2560. The chip does not have large enough internal resistance, but as we are merely concerned with where the voltage drop occurs, this error, although large, does not affect the performance of constructing the current density map.
+%%%%%%%%%%
+\\\indent To construct the current density map, we will supply current through one pair of electrode, and measure the voltage at other vertices connected by two electrodes. Doing the same process repeatedly, we will obtain a mesh of cross sectional measurement as seen in \textbf{Figure \ref{fig:electrick}}, and from this web, we can visualize the current density map to identify the point of contact.
 
 
-\begin{figure}[!htb]
-\begin{center}
-\includegraphics[width=6in]{graph.png}
-\caption{Left: Current is provided in one pair of electrodes and voltage of all other electrodes are measured. Center: a mesh of cross sectional measurements. Right: A processed 2D graph showing current density. Blue color has the lowest current density, indicating location of finger. \cite{Zhang2017}}
-%\label{fig1}
-\end{center}
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=5in]{graph.png}
+	\caption{Left: Current is provided in one pair of electrodes and voltage of all other electrodes are measured. Center: a mesh of cross sectional measurements. Right: A processed 2D graph showing current density. Blue color has the lowest current density, indicating location of finger.\cite{Zhang2017}}
+	\label{fig:electrick}
 \end{figure}
 
-After the control pad works properly, we will work building the robot. We will use the NCR 18650 battery and holder as power source, GY-521 module as accelerometer, and Arduino Pro Mini for controlling the self-balancing robot. To prevent jamming of wheels in some situations, we would also use ABS breaking system. The DRV 8833 motor driver can provide 1.2 A of current continuously, so this should provide the robot enough power to travel through different terrains. We would write a negative feedback program to use the accelerometer and gyroscope for the robot to balance first, and then maneuver it on flat surfaces. We would then modify the program so the robot can travel through all terrains. After that, we would write a program to send instructions to the robot using the Arduino HC-05 bluetooth module through the control pad. The robot should respond promptly after sending it instructions to move now.
+\indent After the control pad works properly, we will work building the robot. We will use the NCR 18650 battery and holder as power source, GY-521 module as accelerometer, and Arduino Pro Mini for controlling the self-balancing robot. To prevent jamming of wheels in some situations, we would also use ABS breaking system. The DRV 8833 motor driver can provide 1.2 A of current continuously, so this should provide the robot enough power to travel through different terrains. We would write a negative feedback program to use the accelerometer and gyroscope for the robot to balance first, and then maneuver it on flat surfaces. Ideally, we could then modify the program so the robot can travel through all terrains. The signals will be sent wirelessly using the Arduino HC-05 bluetooth module. The robot should respond promptly after upon receiving the instructions.
 
 
 \section{Proposed Project Timeline}
@@ -84,7 +85,7 @@ $$
 		\ce 5-6		&	Visualize the 2-D voltage current density	when touching the control pad with tomography imaging\\
 		\ce 7		&	Output coordinate of touch on the control pad; assemble the self-balancing robot\\
 		\ce 8-9		&	Assemble the self-balancing robot and the bluetooth module\\
-		\ce 10		&	Move the robot with control robot\\
+		\ce 10		&	Move the robot with control pad\\
 	\hline
 \end{tabular}
 $$
@@ -98,32 +99,33 @@ $$
 	\hline
 		 Item & Amount & Price(\$) \\
 	\hline
-		 6" x 6" copper sheet					& 	1	&	7.00\\
-		 Jumper with aligator clips				&	20	&	15.98\\
-		 Jumper	pack								&	1	&	6.98\\
-		 ABS by Zen Tool Works					&	1	&	46.00\\
+		 6" x 6" copper sheet									& 	1	&	7.00\\
+		 Jumper with aligator clips								&	20	&	15.98\\
+		 Jumper	pack												&	1	&	6.98\\
+		 ABS by Zen Tool Works								&	1	&	46.00\\
 		 Carbon conductive paint by MG Chemicals	&	2	&	32.00\\
-		 Arduino Mega							&	1	&	33.49\\
-		 Arduino Pro Mini						&	1	&	9.95\\
-		 FTDI friend								&	1	&	14.75\\
-		 GY-521 module with MPU-6050				&	1	&	5.99\\
-		 DRV8833 Pololu motor driver				&	1	&	4.95\\
-		 5V boost converter						&	2	&	1.78\\
-		 NCR18650 battery and holder				&	1	&	3.06\\
-		 Micro metal gear motors and brackets	&	2	&	11.42\\
-		 42 x 19 mm wheels						&	2	&	2.90\\
-		 Double-sided prototype PCB pack			&	1	&	6.57\\
-		 25 cm Nylon spacers pack					&	2	&	4.38\\
-		 Nylon nuts pack							&	1	&	1.15\\
-		 Estimated shipping and tax				&	/	&	50\\
+		 Arduino Mega												&	1	&	33.49\\
+		 Arduino Pro Mini											&	1	&	9.95\\
+		 FTDI friend													&	1	&	14.75\\
+		 GY-521 module with MPU-6050					&	1	&	5.99\\
+		 DRV8833 Pololu motor driver						&	1	&	4.95\\
+		 5V boost converter										&	2	&	1.78\\
+		 NCR18650 battery and holder						&	1	&	3.06\\
+		 Micro metal gear motors and brackets			&	2	&	11.42\\
+		 42 x 19 mm wheels										&	2	&	2.90\\
+		 Double-sided prototype PCB pack				&	1	&	6.57\\
+		 25 cm Nylon spacers pack							&	2	&	4.38\\
+		 Nylon nuts pack											&	1	&	1.15\\
+		 Estimated shipping and tax							&	/	&	50\\
+		 Misc. modules												& /	& 	50\\
 	\hline
-		\multicolumn{2}{|c|}{Grand Total}	& 258.35\\
+		\multicolumn{2}{|c|}{Grand Total}	& 308.35\\
 	\hline
 \end{tabular}
 $$
 
 \section{Conclusion}
-The rescue process is often complicated for survivors in debris left by a natural disaster such as earthquake and hurricane. In order to save time and stabilize the survivors, we propose this remotely operated ground robot with visualized terrain that can serve as visual aid in planning the process and communicating the rescue end directly with the survivor end.
+\indent The rescue process is often complicated for survivors in debris left by a natural disaster such as earthquake and hurricane. In order to save time and stabilize the survivors, we propose this remotely operated ground robot with visualized terrain that can serve as visual aid in planning the process and communicating the rescue end directly with the survivor end.
 
 %\section{Acknowledgment}
 
