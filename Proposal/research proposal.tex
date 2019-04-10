@@ -54,7 +54,19 @@ Therefore, this visualized terrain will provide us with more efficiency and accu
 
 
 \section{Methodology}
+\section{Methodology}
+We will first assemble the conductive layer control pad and mound on the electrodes. Two thin copper chips will be soldered to each side of the control pad to ensure the connections. Alligator clips jumper wires will be used so as to easily transfer between different control pads. Each wire that is connected to the control pad will be divided into two, and will be connected to separate voltage sources and volt meters on the Arduino Mega 2560. The chip does not have large enough internal resistance, but as we are merely concerned with where the voltage drop occur, this error, although large, is still acceptable.
 
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[width=6in]{graph.png}
+\caption{Left: Current is provided in one pair of electrodes and voltage of all other electrodes are measured. Center: a mesh of cross sectional measurements. Right: A processed 2D graph showing current density. Blue color has the lowest current density, indicating location of finger. \cite{Zhang2017}}
+%\label{fig1}
+\end{center}
+\end{figure}
+
+After the control pad works properly, we will work building the robot. We will use the NCR 18650 battery and holder as power source, GY-521 module as accelerometer, and Arduino Pro Mini for controlling the self-balancing robot. To prevent jamming of wheels in some situations, we would also use ABS breaking system. The DRV 8833 motor driver can provide 1.2 A of current continuously, so this should provide the robot enough power to travel through different terrains. We would write a negative feedback program to use the accelerometer and gyroscope for the robot to balance first, and then maneuver it on flat surfaces. We would then modify the program so the robot can travel through all terrains. After that, we would write a program to send instructions to the robot using the Arduino HC-05 bluetooth module through the control pad. The robot should respond promptly after sending it instructions to move now.
 
 
 \section{Proposed Project Timeline}
