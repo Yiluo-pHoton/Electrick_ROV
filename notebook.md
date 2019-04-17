@@ -7,7 +7,7 @@ __April 17, 2019__
 * Allgator clip jumper and copper pad both have negligible resistance - good to go
 * Wrote voltage output program for arduino mega
 * Set up Trello
-* Testing if relay is needed
+* Testing if relay is needed - Yiluo
 * TODO:
 	* Set up the conductive board with copper clip soldered on
 	* Start working with tomography visualization
