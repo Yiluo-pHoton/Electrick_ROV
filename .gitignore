@@ -1,4 +1,5 @@
 *~
+*.bak
 *.swp
 *.pyc
 *.log
@@ -6,3 +7,4 @@
 *.synctex.gz
 *.bbl
 *.blg
+research proposal.pdf
