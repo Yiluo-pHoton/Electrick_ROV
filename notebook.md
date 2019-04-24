@@ -28,3 +28,11 @@ __April 23, 2019__
 	* Test if the voltage reading is symmetric for different pairs of current-giving electrodes
 	* Move the uno code to work on mega (David)
 	* Python Serial communication (Yiluo)
+
+__April 24, 2019__
+
+* Painted the conductive board
+* The resistance is not very stable, and need to figure out why
+* Also the board painting is not uniform, but should not matter if two fixed points have stable resistance reading over time
+* 8-electrode model code is working with resistors acting as the surface of the conductive board
+* Python serial communication is finished, just need to connect with Arduino and acquire actual data for processing
