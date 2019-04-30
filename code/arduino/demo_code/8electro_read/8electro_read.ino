@@ -49,7 +49,7 @@ void setup() {
 
 void loop() {
 
-  for (int i = 0; i < sizeOut; i = i + 2) {
+  for (int i = 0; j < sizeOut; i = i + 2) {
     analogWrite(outPin[i], vin / 5.0 * 255);
     analogWrite(outPin[i + 1], 0);
     // switch off the other 6 electros
@@ -69,7 +69,7 @@ void loop() {
     Serial.println();
 
     // switch to the next frame
-    for (int j = 2; i < sizeOut; j = j + 1) {
+    for (int j = 2; j < sizeOut; j = j + 1) {
       pinMode(outPin[(i + j) % sizeOut], OUTPUT);
     }
 
