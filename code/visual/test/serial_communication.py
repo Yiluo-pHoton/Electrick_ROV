@@ -1,12 +1,13 @@
 import serial
 from time import sleep
 
-ser = serial.Serial('/dev/tty.usbmodem1d11', 9600)
+ser = serial.Serial('/dev/cu.usbmodem14101', 9600)
+fps = 3
 
 class Queue():
     def __init__(self):
         self.queue = []
-        self.length = 3
+        self.length = fps
 
     def add(self, val):
         self.queue.append(val)
@@ -21,8 +22,8 @@ class Queue():
 data_history = Queue()
 
 while True:
-    data = ser.readline().split()
-    data = np.reshape((4, 6))
+    data = ser.readline().decode("utf-8").split()
+    data = np.reshape((4, 8))
 
     data_history.add(data)
 
