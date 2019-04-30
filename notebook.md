@@ -29,6 +29,7 @@ __April 23, 2019__
 	* Move the uno code to work on mega (David)
 	* Python Serial communication (Yiluo)
 
+
 __April 24, 2019__
 
 * Painted the conductive board
@@ -36,3 +37,22 @@ __April 24, 2019__
 * Also the board painting is not uniform, but should not matter if two fixed points have stable resistance reading over time
 * 8-electrode model code is working with resistors acting as the surface of the conductive board
 * Python serial communication is finished, just need to connect with Arduino and acquire actual data for processing
+
+
+__April 29, 2019__
+
+* Define some terminologies (based on 8-electros):
+	* **1/4 frame** : one pair provides voltage and the rest of them measure.
+	* **full frame** : finish iterating 4 electro-pairs and measure the corresponding voltages at each 1/4 frame. At this stage, we can generate our first image.
+	* **take turn** : switch from one electros to another
+	* **full turns** : go through all electros and finally come back to it self
+
+* General plan:
+	* For a 1/4 frame, we take measurements from 6-electros and record them with another two stub data(0V and 5V). 
+	* We take measurements on 1/4 frame repeatedly 40 times. It will take arduino (analogread() takes 1/10000s) 0.096s to get all the data.
+
+* To do list:
+	* Communication speed between python and arduino is not sure yet; create visualization of voltage on each node. (Yiluo)
+	* Get robots setup. (Frank)
+	* Build high-pass filter and low pass filter to generate High Frequency AC current.
+
