@@ -57,7 +57,7 @@ void loop() {
       pinMode(outPin[(i + j) % sizeOut], INPUT);
     }
     // wait 1 ms to stablize
-    delay(1);
+    delayMicroseconds(100);
 
     // read
     for (int k = 0; k < sampleNum; k = k + 1) {
