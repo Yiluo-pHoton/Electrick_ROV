@@ -1,6 +1,6 @@
 // This version is easier for python to read the voltages at each frame
 // For each frame (1-pair as source, 3-pair for measuring), the program takes sampleNum(40) mesurements.
-// All results will be printed on one line. There will be (8*40 = 320) data points. 
+// All results will be printed on one line. There will be (8*40 = 320) data points.
 // Compared with the old version, where the input voltage running around (i.e. the voltage on the right side of the current output pair is always the first on the printing list),
 // this version fixes the output of each point.
 // The measurement for the next frame will be printed on the next line and so on.
@@ -36,7 +36,10 @@ int sampleNum = 40;
 int digit = 4;
 
 // input voltage in V
-float vin = 5;
+int vin = 5;
+
+// stub voltage
+int vGND = 0;
 
 void setup() {
   // initialize all outPins
@@ -62,8 +65,15 @@ void loop() {
     // read
     for (int k = 0; k < sampleNum; k = k + 1) {
       for (int p = 0; p < sizeOut; p = p + 1) {
-        // format: p1 p2 p3 p4 p5 p6 p7 p8, position is fixed compared with last version
-        Serial.print(analogRead(inPin[p]) * 5.0 / 1023, digit); Serial.print(" ");
+        // print format: p1 p2 p3 p4 p5 p6 p7 p8 
+        if (p == i) {
+          Serial.print(vin);  Serial.print(" ");
+          Serial.print(vGND); Serial.print(" ");
+          p = p + 1;
+        }
+        else {
+          Serial.print(analogRead(inPin[p]) * 5.0 / 1023, digit); Serial.print(" ");
+        }
       }
     }
     Serial.println();
