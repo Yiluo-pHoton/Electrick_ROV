@@ -46,12 +46,13 @@ void setup() {
   for (int i = 0; i < sizeOut; i = i + 1) {
     pinMode(outPin[i], OUTPUT);
   }
-  Serial.begin(9600);
+  Serial.begin(115200);
 
 }
 
 void loop() {
 
+  //int i = 0;
   for (int i = 0; i < sizeOut; i = i + 2) {
     analogWrite(outPin[i], vin / 5.0 * 255);
     analogWrite(outPin[i + 1], 0);
@@ -67,8 +68,8 @@ void loop() {
       for (int p = 0; p < sizeOut; p = p + 1) {
         // print format: p1 p2 p3 p4 p5 p6 p7 p8 
         if (p == i) {
-          Serial.print(vin);  Serial.print(" ");
-          Serial.print(vGND); Serial.print(" ");
+          Serial.print(vGND);  Serial.print(" ");
+          Serial.print(vin); Serial.print(" ");
           p = p + 1;
         }
         else {
