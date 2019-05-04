@@ -16,7 +16,7 @@ def visualize(readIn):
     print(readIn)
 
     visual_matrix = np.zeros((8, 8))
-    voltage_coordinates = [(0,2), (0,5), (2,7), (5,7), (7,5), (7,2), (5,0), (2,0)]
+    voltage_coordinates = [(0,2), (0,5), (2,7), (5,7), (7,5), (7,2), (5,0), (2,0)]  # (y,x)
 
     for i in range(len(readIn)):
         visual_matrix[voltage_coordinates[i]] = readIn[i]
@@ -41,7 +41,7 @@ while True:
     else:
         readIn = ser.readline().decode("utf-8").split()
         visual_matrix = visualize(readIn)
-        fig.set_data(visual_matrix - ini_val[i])
+        fig.set_data(visual_matrix-ini_val[i])
     # fig.draw()
 
     i = (i+1)%4
