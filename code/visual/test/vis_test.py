@@ -1,8 +1,10 @@
-import matplotlib.pyplot as plt
 import numpy as np
 import serial
+import matplotlib
+matplotlib.use("TKAgg")  # for conda env
+import matplotlib.pyplot as plt
 
-ser = serial.Serial('/dev/cu.usbmodem14301', 115200)
+ser = serial.Serial('/dev/cu.usbmodem14501', 115200)
 ini_val = []
 ini_val_recorded = False
 
