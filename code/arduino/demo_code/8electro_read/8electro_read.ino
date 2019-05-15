@@ -52,8 +52,7 @@ void setup() {
 
 void loop() {
 
-  //int i = 0;
-  for (int i = 0; i < sizeOut; i = i + 2) {
+  for (int i = 2; i < 3; i = i + 2) {
     analogWrite(outPin[i], vin / 5.0 * 255);
     analogWrite(outPin[i + 1], 0);
     // switch off the other 6 electros
