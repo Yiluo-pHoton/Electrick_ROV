@@ -78,13 +78,14 @@ void loop() {
       }
     }
     Serial.println();
-
     // switch to the next frame
     for (int j = 2; j < sizeOut; j = j + 1) {
       pinMode(outPin[(i + j) % sizeOut], OUTPUT);
     }
 
   }
+  
+ 
 
 
 
