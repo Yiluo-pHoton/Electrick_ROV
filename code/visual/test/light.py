@@ -3,10 +3,9 @@ import serial
 import matplotlib
 matplotlib.use("TKAgg")  # for conda env
 import matplotlib.pyplot as plt
+import time
 
 ser = serial.Serial('/dev/cu.usbmodem14501', 115200)
-ini_val = []
-ini_val_recorded = False
 
 def visualize(readIn):
     readIn = np.array(list(map(float, readIn)))
@@ -22,28 +21,12 @@ def visualize(readIn):
         visual_matrix[voltage_coordinates[i]] = readIn[i]
 
     return visual_matrix
-
-visual_matrix = np.zeros((8,8))
-fig = plt.imshow(visual_matrix, cmap='seismic')
-plt.clim(-0.3,0.3)
-plt.colorbar()
-
-i = 0
+light = 0
+fig = plt.plot(time.time(), light, cmap='seismic')
 
 while True:
-    # readIn = (str(i) + " ") * 320
-    # readIn = readIn[:-1].split()
-    if not ini_val_recorded:
-        for i in range(4):
-            readIn = ser.readline().decode("utf-8").split()
-            ini_val.append(visualize(readIn))
-            ini_val_recorded = True
-    else:
-        readIn = ser.readline().decode("utf-8").split()
-        visual_matrix = visualize(readIn)
-        fig.set_data(visual_matrix-ini_val[i])
-    # fig.draw()
-
-    i = (i+1)%4
+    readIn = ser.readline().decode("utf-8").split()
+    visual_matrix readIn
 
     plt.pause(1e-16)
+
