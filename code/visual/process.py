@@ -24,9 +24,13 @@ while True:
             continue
         readIn = np.array(list(map(float, readIn)))
         readIn = readIn.reshape((40, 32))
-        readIn = list(map(lambda x: np.sqrt(np.mean(np.arrau(x)**2)), list(readIn.transpose())))
-        readIn.insert(0, 1)
-        init_val_recorded = True
+        # readIn = list(map(lambda x: np.sqrt(np.mean(np.arrau(x)**2)), list(readIn.transpose())))
+        readIn = readIn.mean(axis=0)
+        np.insert(readIn, 0, 1)
+        ini_val = readIn
+        ini_val_recorded = True
+        print(ini_val)
+        print(ini_val_recorded)
     else:
         try:
             readIn = ser.readline().decode('utf-8').split()
@@ -34,10 +38,11 @@ while True:
             continue
         readIn = np.array(list(map(float, readIn)))
         readIn = readIn.reshape((40, 32)) # 40 measurements, 32 features
-        readIn = list(map(lambda x: np.sqrt(np.mean(np.array(x)**2)), list(readIn.transpose())))
-        readIn.insert(0, 1)
+        # readIn = list(map(lambda x: np.sqrt(np.mean(np.array(x)**2)), list(readIn.transpose())))
+        readIn = readIn.mean(axis=0)
+        np.insert(readIn, 0, 1)
 
-        Y = np.array(readIn) * theta
+        Y = np.array(readIn - ini_val) * theta
         print(Y)
         scat.set_offsets(Y)
         plt.pause(1e-10)
