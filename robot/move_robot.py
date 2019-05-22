@@ -17,11 +17,11 @@ def goforward(distance):
         # do nothing
     elif distance > 0 :
         board.digital[5].write(0)
-        time.sleep(distance/factor)
+        time.sleep(time(distance))
         board.digital[5].write(1)
         # go forward
     else :
         board.digital[6].write(0)
-        time.sleep(-distance/factor)
+        time.sleep(time(distance))
         board.digital[6].write(1)
         # go backwards
