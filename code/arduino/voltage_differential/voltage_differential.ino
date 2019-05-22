@@ -33,7 +33,7 @@ int sizeIn  = 8;
 int sampleNum = 40;
 
 // precision of voltage reading
-int digit = 4;
+int digit = 6;
 
 // input voltage in V
 int vin = 5;
@@ -52,7 +52,7 @@ void setup() {
 
 void loop() {
 
-  for (int i = 0; i < sizeOut; i = i + 2) {
+  for (int i = 0; i < 1; i = i + 2) {
     analogWrite(outPin[i], vin / 5.0 * 255);
     analogWrite(outPin[i + 1], 0);
     // switch off the other 6 electros
@@ -64,19 +64,21 @@ void loop() {
 
     // read
     for (int k = 0; k < sampleNum; k = k + 1) {
-      for (int p = 0; p < sizeOut; p = p + 1) {
-        // print format: p1 p2 p3 p4 p5 p6 p7 p8 
-        if (p == i) {
-          //Serial.print(vGND);  Serial.print(" ");
-          //Serial.print(vin); Serial.print(" ");
-          p = p + 1;
-        }
-        else {
-          Serial.print(analogRead(inPin[p]) * 5.0 / 1023, digit); Serial.print(" ");
-        }
-      }
+      int p = 2;
+      float v3 = analogRead(inPin[p]);
+      float v5 = analogRead(inPin[p + 2]);
+      float v7 = analogRead(inPin[p + 4]);
+      float v4 = analogRead(inPin[p + 3]);
+      float v6 = analogRead(inPin[p + 5]);
+      float v8 = analogRead(inPin[p + 7]);
+      Serial.print((v3 - v5) * 5.0 / 1023, digit); Serial.print(" ");
+      Serial.print((v5 - v7) * 5.0 / 1023, digit); Serial.print(" ");
+      Serial.print((v4 - v6) * 5.0 / 1023, digit); Serial.print(" ");
+      Serial.print((v6 - v8) * 5.0 / 1023, digit); Serial.print(" ");
+      Serial.print((v7 - v8) * 5.0 / 1023, digit); Serial.print(" ");
+      //delay(2000);
     }
-    
+
     // switch to the next frame
     for (int j = 2; j < sizeOut; j = j + 1) {
       pinMode(outPin[(i + j) % sizeOut], OUTPUT);
