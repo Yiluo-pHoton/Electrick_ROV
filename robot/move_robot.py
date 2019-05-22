@@ -12,7 +12,10 @@ def time(distance):
         return 0.2
 # function acquired from fitting the data, minimum movement is 11.5 cm.
 
-def goforward(distance):
+def goforward(coordinate):
+    # coordinate goes from 0 to 23 cm
+    # to avoid minumum movement issue let 1 cm coordinate -> 11.5 cm distance
+    distance = coordinate*12
     if distance = 0 :
         # do nothing
     elif distance > 0 :
