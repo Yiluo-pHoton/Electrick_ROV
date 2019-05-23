@@ -11,22 +11,25 @@ ini_val_recorded = False
 
 def visualize(readIn):
     readIn = np.array(list(map(float, readIn)))
-    readIn = readIn.reshape((40, 8))
-    readIn = list(map(lambda x: np.sqrt(np.mean(np.array(x)**2)), list(readIn.transpose())))
+    readIn = readIn.reshape((40, 5))
+    readIn = readIn.mean(axis=0)
+    #readIn = list(map(lambda x: np.sqrt(np.mean(np.array(x)**2)), list(readIn.transpose())))
 
     print(readIn)
 
-    visual_matrix = np.zeros((8, 8))
-    voltage_coordinates = [(0,2), (0,5), (2,7), (5,7), (7,5), (7,2), (5,0), (2,0)]  # (y,x)
+    visual_matrix = np.zeros((4, 10))
+    voltage_coordinates = [ (0,4), (3,4), (0,7), (3,7), (1,9)]  # (y,x)
+    #voltage_coordinates = [(0,0), (3,0), (0,3), (3,3), (0,6), (3,6), (0,9), (3,9)]  # (y,x)
+
 
     for i in range(len(readIn)):
         visual_matrix[voltage_coordinates[i]] = readIn[i]
 
     return visual_matrix
 
-visual_matrix = np.zeros((8,8))
+visual_matrix = np.zeros((4,10))
 fig = plt.imshow(visual_matrix, cmap='seismic')
-plt.clim(-0.3,0.3)
+plt.clim(-0.007,0.007)
 plt.colorbar()
 
 i = 0
