@@ -1,9 +1,15 @@
+from pyfirmata import Arduino, util
 import time
+board = Arduino('/dev/cu.usbmodem14401')
 
 #initial values
-initial_time = time.perf_counter()
+global initial_time
+initlal_time = time.perf_counter()
+global control_num
 control_num = 0
+global pausetime
 pausetime = 0
+global forward
 forward = 1 # 1 is forward, 2 is backward
 
 def sleeptime(distance):
@@ -12,17 +18,26 @@ def sleeptime(distance):
         return (distance - 5.71)/(30.31)
     else:
         return 0.2
-#same function as move robot
+# same function as move robot
+
+# put this in initialization
+print('sleepy time over')
+
+board.digital[5].write(1)
+board.digital[6].write(1)
 
 # below are the lines to be added to the main loop
-while True:
-    if control_num == 0:
+distance = 10
+
+def goforward():
+    if control_num == 0 and distance != 0:
         pausetime = sleeptime(distance)
         if distance > 0 :
             board.digital[5].write(0)
             initial_time = time.perf_counter()
             forward = 1
             control_num = 1
+            print("go forward!")
         else :
             board.digital[6].write(0)
             initial_time = time.perf_counter()
@@ -34,8 +49,9 @@ while True:
             if forward == 1:
                 board.digital[5].write(1)
                 control_num = 0
+                distance = 0
             else:
                 board.digital[6].write(1)
                 control_num = 0
-                
+                distance = 0
         
