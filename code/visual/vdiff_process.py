@@ -7,37 +7,51 @@ import lib.train_vdiff as tr
 from pyfirmata import Arduino, util
 import time
 
-def Time(distance):
+def sleeptime(distance):
     distance = abs(distance)
     if distance > 11.5:
         return (distance - 5.71)/(30.31)
     else:
         return 0.2
-# function acquired from fitting the data, minimum movement is 11.5 cm.
+    
+def goforward():
+    global initial_time
+    global control_num
+    global pausetime
+    global forward
+    if control_num == 0 and distance != 0:
+        pausetime = sleeptime(distance)
+        if distance > 0 :
+            board.digital[5].write(0)
+            initial_time = time.perf_counter()
+            forward = 1
+            control_num = 1
+            print("go forward!")
+            return
+        else :
+            board.digital[6].write(0)
+            initial_time = time.perf_counter()
+            forward = 2
+            control_num = 1
+            return
+    else:
+        time_now = time.perf_counter()
+        if time_now - initial_time >= pausetime:
+            if forward == 1:
+                board.digital[5].write(1)
+                control_num = 0
+                distance = 0
+                return
+            else:
+                board.digital[6].write(1)
+                control_num = 0
+                distance = 0
+                return
 
-def goforward(coordinate):
-    # use pins 12 and 13
-    # coordinate goes from 0 to 23 cm
-    # to avoid minumum movement issue let 1 cm coordinate -> 11.5 cm distance
-    distance = coordinate*12
-    if distance == 0 :
-        return
-        # do nothing
-    elif distance > 0 :
-        board.digital[12].write(0)
-        time.sleep(Time(distance))
-        board.digital[12].write(1)
-        # go forward
-    else :
-        board.digital[13].write(0)
-        time.sleep(Time(distance))
-        board.digital[13].write(1)
-        # go backwards
-
-
+                
 k = input("number of samples:\n")
-elec_port = '14501'
-robot_port = '14601'
+elec_port = '14601'
+robot_port = '14401'
 baud = '115200'
 train = tr.Train(int(k), elec_port, baud)
 theta = train.start()
@@ -48,6 +62,20 @@ ini_val_recorded = False
 
 board = Arduino('/dev/cu.usbmodem'+robot_port)
 ser = serial.Serial('/dev/cu.usbmodem'+elec_port, int(baud))
+
+# initialize robot
+#initial values
+global initial_time
+initlal_time = time.perf_counter()
+global control_num
+control_num = 0
+global pausetime
+pausetime = 0
+global forward
+forward = 1 # 1 is forward, 2 is backward
+print('Robot Control Ready...')
+board.digital[5].write(1)
+board.digital[6].write(1)
 
 
 plt.figure()
@@ -83,6 +111,8 @@ while True:
 
         Y = np.array(readIn - ini_val) * theta
         print(Y)
+        distance = Y[0,0]/4.0*11.5
+        goforward()
         scat.set_offsets(Y)
         plt.pause(1e-10)
 
