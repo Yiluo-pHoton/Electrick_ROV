@@ -30,11 +30,11 @@ class Train():
         except UnicodeDecodeError:
             return self.collect()
 
-        if len(readIn) != 5*40:
+        if len(readIn) != 4*40:
             return self.collect()
         else:
-            readIn = np.array(list(map(float, readIn)))
-            readIn = readIn.reshape((40, 5))  # 40 times, 32 features
+            readIn = np.array(list(map(float, readIn))) ** 2
+            readIn = readIn.reshape((40, 4))  # 40 times, 32 features
             # readIn = list(map(lambda x: np.sqrt(np.mean(np.array(x)**2)), list(readIn.transpose())))
             readIn = readIn.mean()
             readIn = np.array([2 if self.initialized else 1, readIn])
