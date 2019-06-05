@@ -13,26 +13,30 @@ def sleeptime(distance):
         return (distance - 5.71)/(30.31)
     else:
         return 0.2
-    
-def goforward():
+
+def goforward(distance):
     global initial_time
     global control_num
     global pausetime
     global forward
-    if control_num == 0 and distance != 0:
-        pausetime = sleeptime(distance)
-        if distance > 0 :
+    global position
+    if control_num == 0 and distance-position != 0:
+        pausetime = sleeptime(distance-position)
+        if distance-position > 0 :
             board.digital[5].write(0)
             initial_time = time.perf_counter()
             forward = 1
             control_num = 1
-            print("go forward!")
+            print("go forward!" + str(distance - position))
+            position = distance
             return
         else :
+            print("Going backward" + str(distance-position))
             board.digital[6].write(0)
             initial_time = time.perf_counter()
             forward = 2
             control_num = 1
+            position = distance
             return
     else:
         time_now = time.perf_counter()
@@ -48,10 +52,10 @@ def goforward():
                 distance = 0
                 return
 
-                
+
 k = input("number of samples:\n")
-elec_port = '14601'
-robot_port = '14401'
+elec_port = '14501'
+robot_port = '14301'
 baud = '115200'
 train = tr.Train(int(k), elec_port, baud)
 theta = train.start()
@@ -72,6 +76,8 @@ control_num = 0
 global pausetime
 pausetime = 0
 global forward
+global position
+position = 0
 forward = 1 # 1 is forward, 2 is backward
 print('Robot Control Ready...')
 board.digital[5].write(1)
@@ -82,6 +88,8 @@ plt.figure()
 plt.xlim(0, 40)
 plt.ylim(0, 2.)
 scat = plt.scatter(1, 1, c='b', s=510, marker='o')
+
+
 
 while True:
     if not ini_val_recorded:
@@ -111,8 +119,8 @@ while True:
 
         Y = np.array(readIn - ini_val) * theta
         print(Y)
-        distance = Y[0,0]/4.0*11.5
-        goforward()
+        distance = Y[0,0]/40*11.5
+        goforward(distance)
         scat.set_offsets(Y)
         plt.pause(1e-10)
 
