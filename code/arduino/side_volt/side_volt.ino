@@ -51,9 +51,16 @@ void setup() {
 }
 
 void loop() {
-  // just one electrode projecting
-  for (int i = 0; i < 1; i = i + 2) {
+  
+  // side projecting
+  analogWrite(outPin[1], vin / 5.0 * 255);
+  analogWrite(outPin[0], 0);
+  analogWrite(outPin[5], vin / 5.0 * 255);
+  analogWrite(outPin[0], 0);
+  
+  for (int i = 0; i < sizeOut; i = i + 2) {
     analogWrite(outPin[i], vin / 5.0 * 255);
+    pinMode(outPin[(i + 1) % sizeOut], INPUT);
     analogWrite(outPin[i + 1], 0);
     // switch off the other 6 electros
     for (int j = 2; j < sizeOut; j = j + 1) {

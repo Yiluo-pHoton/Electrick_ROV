@@ -12,7 +12,7 @@ def sleeptime(distance):
     if distance > 11.5:
         return (distance - 5.71)/(30.31)
     else:
-        return 0.2
+        return 0
 
 def goforward(distance):
     global initial_time
@@ -85,11 +85,11 @@ board.digital[6].write(1)
 
 
 plt.figure()
-plt.xlim(0, 40)
+plt.xlim(0, 25)
 plt.ylim(0, 2.)
 scat = plt.scatter(1, 1, c='b', s=510, marker='o')
 
-
+box_y = []
 
 while True:
     if not ini_val_recorded:
@@ -118,9 +118,13 @@ while True:
         readIn = np.array([1, readIn])
 
         Y = np.array(readIn - ini_val) * theta
-        print(Y)
-        distance = Y[0,0]/40*11.5
-        goforward(distance)
+        box_y.append(Y[0,0])
+        if len(box_y) ==20:
+            distance = np.mean(box_y)/120*5.0
+            for i in range(5):
+                box_y.pop(i)
+            print(np.mean(box_y))
+            goforward(distance)
         scat.set_offsets(Y)
         plt.pause(1e-10)
 
