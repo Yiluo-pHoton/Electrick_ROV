@@ -62,6 +62,7 @@ The goal of the touching pad is that it can be manufactured by shrinking the rea
 
 
 \section{Touching Pad}
+The goal of the touching pad is that it can be manufactured by shrinking the real size of the actual terrain where the ROV operates. Then, any touching on the touching pad will correspond to a real coordinate in the actual terrain. Therefore, the command applied on the touching pad will correspond to a command of the ROV in the real field. In this section, we are going to introduce the method we constructed the touching pad and the mechanism we use to sense the touch.
 
 \subsection{Electric sensing principle}
 Our sensing principle is based on the a carbon-coated plastic board which changes its resistance distribution when the mechanical deformation happens on the board. We also call this method Dynamic Pressure Sensing since as we put our finger on the board, the contact pressure creates the local deformation on the board. This deformation leads to a change in the resistance distribution of the board. 
@@ -77,15 +78,28 @@ In Fig. \ref{fig::pressure}, DC current is used to describe the shift of voltage
 
 In addition, we also tried to implement another popular sensing mechanism based on electric shunting \cite{shunt}, which is implemented by Zhang \cite{electrick}. This mechanism is wildly utilized in Electric Field (EF) sensing systems \cite{ef}. However, this principle requires generating high frequency (200Khz) AC current and higher standard for noise reduction. The wave generator we used, Arduino Mega 2560 \citep{arduino}, cannot generate clean enough signal and the effect of electric shunting cannot be detected from the measurement. Hence, we choose to use the dynamic pressure sensing as our sensing principle.
 \subsection{Touching pad setup}
-The touching pad is constructed by spraying a conductive carbon paint made by MG Chemicals \citep{carbon} on the surface of a plastic board (25cm $\times$ 6cm). Eight electrodes are placed on the peripheral of the board with separation 6cm and each electrode is consist of 2 alligator clips with one of them applying the voltage and the other measures the voltage. Each 
-\begin{figure}[h]
-\centering
-    \includegraphics[width=0.45\textwidth]{./figure/pad}     
-       \caption{. \citep{isoft} }
-    \label{fig::pad}
+The touching pad is constructed by spraying a conductive carbon paint made by MG Chemicals \citep{carbon} on the surface of a plastic board (25cm $\times$ 6cm). After the spraying, the resistance across the diganol of the board is about 1$\si{k \Omega}$. In Fig. \ref{fig::pad}(a), eight ``electrodes" are placed on the peripheral of the board with separation 6cm and each electrode is consist of 2 alligator clips with one of them applying the voltage and the other measures the voltage. 
+
+\begin{figure}
+ 	\subfloat[Conductive carbon-coated board with 16 alligator clips. Every 2 alligator clips represent one electrode.]{\includegraphics[width=.32\textwidth]{./figure/pad} }\\
+ 	\subfloat[Schematic diagram with 8 electrodes.]{\includegraphics[width=.32\textwidth]{./figure/procedure} } 
+\caption{8 electrodes are placed on the peripheral of the touching pad. Every electrode is connect with a Analogwrite pin and Analogread pin.}
+ \label{fig::pad}
 \end{figure}
+
 \subsection{Measuring procedures}
+The measuring procedure requires a pair of electrodes (2 electrodes across the width of the board) to apply a voltage to the touching pad, and we call this pair of electrodes the \textbf{projecting pair}. In the meantime, the other 6 electrodes measure the voltage on each electrode, and we call them \textbf{measuring pair}. Here, we have a projecting pair and three measuring pair and we call this configuration \textbf{1/4 frame}. Then, the projecting pair moves to the right of the previous one. Now, the 2nd pair of electrodes is the projecting pair and the rest becomes the measuring pair. The process iterates until it reaches the most right pair of electrodes. Then, we call we have finished a \textbf{full frame}.
+
 \subsection{Implementation}
+In Fig. \ref{fig::pad}(b), the Arduino Mega 2560 applies the voltage in the red pair electrodes. This is realized by setting one electrode 5V and the other 0V, and hence, we will get 5V across the touching pad. Then, the system will delay 100 micro-seconds to stabilize the current. The voltage will be read from the rest of electrodes one by one with reading time 100 micro-seconds for each. Then, we will repeat the reading 40 times, and thus we will have 6 $\times$ 40 = 240 data points from this 1/4 frame. After iterating on the rest 3 pairs, we have 240 $\times$ 4 = 960 data points in total for the full frame. We may calculate the time to acquire the data for the full frame:
+\[ 100 \times 4 + 100 \times 960 = 96,400 \text{micro-sec}  = 0.0964 \text{sec},
+\]
+which is less than 0.1s. We know this is intuitively quite fast.
+
+Then, we have a technical difficulty needs to be resolved when switching the projecting pair to the next. To finish the switch, we should ``close" the previous projecting pair instead of only setting them to 0V. Here, we shall notice the difference between ``close" and grounded. Setting them to 0V basically means that we will have 3 electrodes grounded, and 1 electrode with 5V, which will ruin the configuration. Hence, we need to figure out a way to actually ``close" the electrodes.
+
+The method we find is to set the previous two electrodes to ``INPUT" mode, which set the pin to a high impedance state which has 100 $\si{M\Omega}$. Compared with $1\si{k\Omega}$ of the touching pad, this resistance is enough to let us regard the electrodes as ``close''. This method is efficient since we avoid using a relay, which will tremendously delay our update time for the electric sensing. 
+
 
 \section{Visualization and Locating Finger}
 \subsection{Voltage color-map}
