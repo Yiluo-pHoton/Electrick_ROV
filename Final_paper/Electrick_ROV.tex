@@ -40,13 +40,17 @@
 % to measure the systematic error, you can try best to maximize the potential one and see if it will genuinely have much effect
 
 \begin{abstract}
+<<<<<<< HEAD
+Often times there exist terrain on which people cannot tread on. Whether it be disaster debris or remote terrain such as Mars, it would provide much convenience if we are allowed to control the vehicle remotely while still being able to see directly how the terrain looks like. However, current touch input technologies are better suited for flat and relative small surfaces. In 2017, Yang \citep{electrick} proposed a sensing technique that utilizes electric field tomography. Inspired by Yang, we implemented this technique in a possible realistic situation using dynamic pressure sensing instead. We successfully acquired touch input from a cardboard using machine learning, and commanded a Remote Operated Vehicle (ROV) to move to the corresponding position. This model can be easily generalized. Suppose we have a complex terrain and human is not fit for the mission, we can 3D print the terrain and guide robot to desired location with a swipe of finger. Not only is this control more intuitive, it can also provide helpful information that can aid the mission.
+=======
 Current touch input technologies are better suited for flat and relative small surfaces. In 2017, Yang \citep{electrick} proposed a sensing technique that utilizes electric field tomography. Inspired by Yang, we implemented this technique in a possible realistic situation using dynamic pressure sensing instead. We successfully acquired touch input from a cardboard using machine learning, and commanded a Remote Operated Vehicle (ROV) to move to the corresponding position. This model can be easily generalized. Suppose we have a complex terrain and human is not fit for the mission, we can 3D print the terrain and guide robot to desired location with a swipe of finger. Not only is this control more intuitive, it can also provide helpful information that can aid the mission.
+>>>>>>> 6a97dfacc2d896add2eb77cacbc644a151c0d400
 \end{abstract}
 
 \maketitle
 
 \section{Introduction}
-Often times there exist terrain on which people cannot tread on. Whether it be disaster debris or remote terrain such as Mars, it would provide much convenience if we are allowed to control the vehicle remotely while still being able to see directly how the terrain looks like. Under such circumstance, we wish to construct a robot that will follow our command on a model terrain that replicate the scale and feature of the actual terrain.
+Remotedly operated vehicles are already very common in performing jobs that human are not suited for, such as underwater construction, extraterrestrial exploration, work in hideous environment, and etc. However, in those situations, the robot is often monitored by multiple mounted cameras, and controlled by using a computer screen with visuals sent back from the robot. It would be hard for people in control to fully grasp the bigger map of the robot's moving zone, and it poses difficulties to evaluate the overall conditions of the terrain with just cameras. Under such circumstance, we propose to construct a robot that will follow our command on a model terrain that replicate the scale and feature of the actual terrain, as a visual aid and new way of controlling the robot directly.
 \\\indent To achieve such goal, we chose to create a touching pad sprayed with carbon conductive material, and scaled the size according to the dimension of the track on which our vehicle would be walking on. This served as our toy model for the remotely controlled vehicle on a visualized terrain. On the touching pad, we used electric sensing mechanism to measure the voltage drop across different locations, process the data to predict the finger location, and send the corresponding command through infrared to the vehicle.
 
 \subsection{Setup overview}
@@ -104,7 +108,7 @@ The method we find is to set the previous two electrodes to ``INPUT" mode, which
 \section{Visualization and Locating Finger}
 \subsection{Voltage color-map}
 To better monitor the performance of our voltage measurements, we created a real-time voltage map to visualize the data intake at each electrode. In order to see clearly the fluctuations, every time when we run the processing code, we would first run a round of measurement to initialize an offset value that would be subtracted from the later measurements. This is to help us magnify the variations of voltage around a certain value that is different every time due to the easily deformable nature of our touching pad.
-\\\indent As we eventually ended using the rectangular touching pad for 1D control, we were aiming for distinguishing the finger locations at four different points. Previously the voltage drop patter could hardly be seen from the voltage map when we attempted to use a large rectangular touching pad. However, as we switched to the 1D touching pad, we could distinguish by eyes that by applying deformation at four different points, we would measure four distinct patterns of voltage drop across the electrodes, as seen in \ref{fig::voltage_map}
+\\\indent As we eventually ended using the rectangular touching pad for 1D control, we were aiming for distinguishing the finger locations at four different points. Previously the voltage drop patter could hardly be seen from the voltage map when we attempted to use a large rectangular touching pad. However, as we switched to the 1D touching pad, we could distinguish by eyes that by applying deformation at four different points, we would measure four distinct patterns of voltage drop across the electrodes, as seen in \textbf{Figure  \ref{fig::voltage_map}}.
 \begin{figure}
  	\subfloat[]{\includegraphics[scale=0.5]{figure/rec1}}\\
  	\subfloat[]{\includegraphics[scale=0.5]{figure/rec2}}\\
@@ -114,10 +118,14 @@ To better monitor the performance of our voltage measurements, we created a real
 \end{figure}
  
 \subsection{Locating finger with machine learning}
+Originally, we intended to use the electric impedance tomography method to reconstruct the current density over the touching pad. This is a common non-invasive sensing method widely used in medical survey. However, this method only supports still objects that are not subject to deformation, and the most suited situation for using it would be a flat and regularly shaped cross section. Therefore, since our signals come mostly from the deformation of surface, we altered our method to machine learning, which is independent of the various constraint posed by tomography reconstruction.
+\\\indent For our machine learning model, we first identify multiple points on the touching pad, and pre-record their coordinates. Then every time when we boot up our program, we would first go through initialization and calibration to train our model. Then using the normal equation (as seen below), we could use this method to predict the finger location.
 
 \begin{equation}
  	\theta = (X^TX)^{-1}(X^Ty)
 \end{equation}
+
+In this equation, $\theta$ represents the coefficient for each feature that we used to train our model, each feature being the root mean square of a box of 40 data points we acquired at each electrode; $X$ represent the matrix of the input feature; and $y$ is a column vector that represents the 1D coordinate that corresponds to the voltage feature we recorded in matrix $X$.
 
 \section{Remotely Operated Robot (ROV)}
 We assembled our robot using the components that were bought online. We programmed the robot so that it can be controlled by a pre-made infrared remote control. Instead of pushing physical buttons, the remote can be switched on and off by the relay, which is wired to an Arduino Mega connected to the computer. In the graph, the relay and remote is in the lower part connected together by blue tape.
@@ -148,10 +156,13 @@ Some drawbacks of this method is that there is really no feedback, so we were un
 
 
 \section{Future Improvement}
-\subsection{•}
 
 We used a protocol called pyFirmata to communicate with Arduino from our computer using python. After the individual robot control program is debugged and tested, we integrated it into our main program.
+\\\indent For the software part, originally, the machine learning was highly noisy, and the finger location prediction does not provide any sensible data, and we were not able to tell which part went wrong. However, later by measuring 20 sets of data for training the model, we were able to stabilize the resulting finger location on a certain point. And then we were able to recognize the result of our machine learning prediction. At this point, we realized that the prediction was not linear, that is, if we put our finger on four uniformly spaced points, we would get results that has increasing distance between each point. 
+\\\indent This turned out to be an issue with the our feature input. We realized that the inputs might not be linearly related to the finger location, and before using the raw data to train our data, an immediate improvement would be to encode it in a different parameter space where the relation between input and finger location is better characterized.
 
+\section{Acknowledgment}
+We would like to thank PHYS CS 15C course at UCSB for sponsoring this project, and Prof. Andrew Jayich, Remi Boros, and Craig Holliman for supervising this class.
 
 \nocite{*}
 \bibliography{rov}% Produces the bibliography via BibTeX.
