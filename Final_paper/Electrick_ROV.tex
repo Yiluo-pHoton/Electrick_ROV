@@ -17,13 +17,12 @@
 \usepackage{graphicx}
 \usepackage{amssymb}
 \usepackage{esint}
-\usepackage{subfigure}
 \usepackage{color}
 \usepackage{moreverb}
 \usepackage{wrapfig}
 \usepackage{physics}
-\usepackage{tikz}
 \usepackage{siunitx}
+\usepackage{subfig}
 %\usepackage{wrapfig}
 
 
@@ -88,9 +87,23 @@ The touching pad is constructed by spraying a conductive carbon paint made by MG
 \subsection{Measuring procedures}
 \subsection{Implementation}
 
-\section{Visualization and Finger Localization}
+\section{Visualization and Locating Finger}
 \subsection{Voltage color-map}
-\subsection{Machine learning for finger localization}
+To better monitor the performance of our voltage measurements, we created a real-time voltage map to visualize the data intake at each electrode. In order to see clearly the fluctuations, every time when we run the processing code, we would first run a round of measurement to initialize an offset value that would be subtracted from the later measurements. This is to help us magnify the variations of voltage around a certain value that is different every time due to the easily deformable nature of our touching pad.
+
+\begin{figure}
+ 	\subfloat[]{\includegraphics[scale=0.5]{figure/rec1}}\\
+ 	\subfloat[]{\includegraphics[scale=0.5]{figure/rec2}}\\
+ 	\subfloat[]{\includegraphics[scale=0.5]{figure/rec3}}\\
+ 	\subfloat[]{\includegraphics[scale=0.5]{figure/rec4}}
+ 	\caption{The visualization of voltage measurements when causing deformation at four middle points between opposite electrodes}
+\end{figure}
+ 
+\subsection{Locating finger with machine learning}
+
+\begin{equation}
+ 	\theta = (X^TX)^{-1}(X^Ty)
+\end{equation}
 
 \section{Remotely Operated Robot (ROV)}
 We assembled our robot using the components that were bought online. We programmed the robot so that it can be controlled by a pre-made infrared remote control. Instead of pushing physical buttons, the remote can be switched on and off by the relay, which is wired to an Arduino Mega connected to the computer. In the graph, the relay and remote is in the lower part connected together by blue tape.
