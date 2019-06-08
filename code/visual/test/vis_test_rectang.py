@@ -29,7 +29,7 @@ def visualize(readIn):
 
 visual_matrix = np.zeros((4,10))
 fig = plt.imshow(visual_matrix, cmap='seismic')
-plt.clim(-0.2,0.2)
+plt.clim(-0.3,0.3)
 plt.colorbar()
 
 i = 0

@@ -51,7 +51,7 @@ void setup() {
 }
 
 void loop() {
-
+  // just one electrode projecting
   for (int i = 0; i < 1; i = i + 2) {
     analogWrite(outPin[i], vin / 5.0 * 255);
     analogWrite(outPin[i + 1], 0);
