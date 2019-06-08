@@ -59,6 +59,9 @@
 \section{Touching Pad}
 The goal of the touching pad is that it can be manufactured by shrinking the real size of the actual terrain where the ROV operates. Then, any touching on the touching pad will correspond to a real coordinate in the actual terrain. Therefore, the command applied on the touching pad will correspond to a command of the ROV in the real field. In this section, we are going to introduce the method we constructed the touching pad and the mechanism we use to sense the touch.
 
+
+\section{Touching Pad}
+
 \subsection{Electric sensing principle}
 Our sensing principle is based on the a carbon-coated plastic board which changes its resistance distribution when the mechanical deformation happens on the board. We also call this method Dynamic Pressure Sensing since as we put our finger on the board, the contact pressure creates the local deformation on the board. This deformation leads to a change in the resistance distribution of the board. 
 
@@ -88,12 +91,38 @@ The touching pad is constructed by spraying a conductive carbon paint made by MG
 \subsection{Machine learning for finger localization}
 
 \section{Remotely Operated Robot (ROV)}
+We assembled our robot using the components that were bought online. We programmed the robot so that it can be controlled by a pre-made infrared remote control. Instead of pushing physical buttons, the remote can be switched on and off by the relay, which is wired to an Arduino Mega connected to the computer. In the graph, the relay and remote is in the lower part connected together by blue tape.
+
+\begin{figure}[!htb]
+\begin{center}
+\includegraphics[width=3in]{relay.jpg}
+\caption{Remote control, Relay, and Arduino Mega}
+\label{fig1}
+\end{center}
+\end{figure}
+
 \subsection{Modules}
+Our robot is driven by four DC motors. Since we used a L298N dual full bridge driver, the motors of each side had to be wired together. To make the robot move slower, we have gear boxes connected to each of the motors. In addition, PWM is used instead of usual analog pins. We used Arduino Uno to control the whole robot, and mounted Vishley TSOP32238 infrared control on Uno. The power is provided by two 18650 lithium batteries. The robot also comes with other potentially useful components, such as line tracking module, ultrasonic sensor, and bluetooth module.
+
 \subsection{Control method}
+Initially we proposed to control the robot using bluetooth module, but after some time, we realized that bluetooth is not a great idea as it is hard to interface with python, not to mention dealing with the various protocols. As a result, we turned to a pre-made remote control instead. We used the relay to control the remote control and the distance robot travels can be monitored by changing the time duration that the remote is switched on. From many trials we found the distance traveled by robot and the remote's ON duration is not a strict linear relationship as we expected. 
+
+As a result, some data is taken and it turns out there was a minimum distance the robot must move. One possible reason is that one complete infrared signal has a minimum required time to send depending on the string that is encoded. In this case, no matter how soon we make the time duration, at a certain point, the signal duration will not become shorter anymore. To resolve this issue, we set the PWM on the motor to the minimum possible (that is, any power lower than this will not be enough to move the robot).Thus, we successfully reduced the minimum distance to about 11.5 centimeters. We also did linear regression to find the correspondence of time and movement distance after minimal distance.
+
+As the accuracy of our track pad is vertainly larger than 1 cm, and the track pad is 23 cm long, we just set the ratio between touch pad and robot movement as 1:11.5 to eliminate the issue. Now this error is acceptable since track pad is now a larger error source.
+
+Some drawbacks of this method is that there is really no feedback, so we were unable to do error control. If we had more time, some possible solutions would be: \\
+1) change DC motors into stepper motors, \\
+2) build a custom infrared remote so we can directly tell the robot how long to travel, and \\
+3) use ultrasonic sensor as a means of feedback.
 \subsection{Communication with the touching pad}
+
 
 \section{Future Improvement}
 \subsection{•}
+
+We used a protocol called pyFirmata to communicate with Arduino from our computer using python. After the individual robot control program is debugged and tested, we integrated it into our main program.
+
 
 \nocite{*}
 \bibliography{rov}% Produces the bibliography via BibTeX.
