@@ -153,11 +153,9 @@ Some drawbacks of this method is that there is really no feedback, so we were un
 2) build a custom infrared remote so we can directly tell the robot how long to travel, and \\
 3) use ultrasonic sensor as a means of feedback.
 \subsection{Communication with the touching pad}
-
+We used a protocol called pyFirmata to communicate with Arduino from our computer using python. After the individual robot control program is debugged and tested, we integrated it into our main program.
 
 \section{Future Improvement}
-
-We used a protocol called pyFirmata to communicate with Arduino from our computer using python. After the individual robot control program is debugged and tested, we integrated it into our main program.
 \\\indent For the software part, originally, the machine learning was highly noisy, and the finger location prediction does not provide any sensible data, and we were not able to tell which part went wrong. However, later by measuring 20 sets of data for training the model, we were able to stabilize the resulting finger location on a certain point. And then we were able to recognize the result of our machine learning prediction. At this point, we realized that the prediction was not linear, that is, if we put our finger on four uniformly spaced points, we would get results that has increasing distance between each point. 
 \\\indent This turned out to be an issue with the our feature input. We realized that the inputs might not be linearly related to the finger location, and before using the raw data to train our data, an immediate improvement would be to encode it in a different parameter space where the relation between input and finger location is better characterized.
 
